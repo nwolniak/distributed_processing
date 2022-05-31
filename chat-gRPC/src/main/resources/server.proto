@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_package = "com.chat.grpc";
+option java_outer_classname = "ServerService";
+
+service server {
+  rpc join(JoinRequest) returns (ServerResponse);
+  rpc quit(QuitRequest) returns (ServerResponse);
+  rpc sendMessage(stream FromClientMessage) returns (stream FromServerMessage);
+}
+
+message FromClientMessage {
+  string clientName = 1;
+  string message = 2;
+  int32 messageQuotedId = 3;
+  string image_type = 4;
+  bytes image_data = 5;
+}
+
+message FromServerMessage {
+  int32 messageId = 1;
+  string clientName = 2;
+  string message = 3;
+  string messageQuoted = 4;
+  string image_type = 5;
+  bytes image_data = 6;
+}
+
+message JoinRequest {
+  string clientName = 1;
+  int32 groupId = 2;
+}
+
+message QuitRequest {
+  string clientName = 1;
+}
+
+message ServerResponse {}
